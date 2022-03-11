@@ -1,4 +1,4 @@
 @extends('main.layouts.main')
 @section('content')
-<index></index>
+        <Index></Index>
 @endsection
