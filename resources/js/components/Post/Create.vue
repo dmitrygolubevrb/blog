@@ -5,7 +5,7 @@
         <section id="entity_section" class="entity_section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="entity_wrapper">
                             <div class="entity_title">
                                 <h1><a href="#">Создание поста</a></h1>
@@ -13,9 +13,42 @@
                             <!-- entity_title -->
 
                             <div class="entity_content">
-                                <vue-editor :editorOptions="editorSettings" v-model="content"></vue-editor>
+                                    <div class="row entity_content">
+                                        <div class="col-md-6">
+                                            <label for="title" class="form-label">Заголовок поста</label>
+                                            <input type="text" class="form-control" id="title">
+                                        </div>
+                                    </div>
+                                <div class="row entity_content input-image-group">
+                                    <div class="col-md-6">
+                                        <label for="main-image" class="form-label">Главное изображение</label>
+                                        <div ref="dropzone" id="main-image" class="p-5 btn d-block mb-3  bg-success dropzone-field">
+                                            Перетащите изображение сюда
+                                        </div>
+                                    </div>
+
+                                        <div class="col-md-6 slider-group" v-for="item in this.countSliders" :key="item.id">
+                                            <label class="form-label">Добавление слайдера</label>
+                                            <div ref="dropzone-slider" class="p-5 btn d-block mb-3  bg-success dropzone-field">
+                                                Перетащите изображение сюда
+                                            </div>
+                                        </div>
+
+
+                                    <div class="col-md-2">
+                                        <label class="form-label">Добавить слайдер</label>
+                                        <div class="mt-3 p-5 btn d-block mb-3  bg-success dropzone-field" @click.prevent="addSlider"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+
+                                <div class="row entity_content">
+                                    <div class="col-md-12">
+                                        <vue-editor :editorOptions="editorSettings" v-model="content"></vue-editor>
+                                    </div>
+                                </div>
                             </div>
                             <!-- entity_content -->
+
 
                             <div class="entity_footer">
                                 <div class="entity_tag">
@@ -36,8 +69,39 @@
                             <!-- entity_footer -->
 
                         </div>
-                        <!-- entity_wrapper -->
+                    </div>
+                    <!--Left Section-->
 
+                    <div class="col-md-3">
+                        <div class="widget">
+                            <div class="">
+                                <h2>Настройки публикации</h2>
+                            </div>
+                            <div class="">
+                                <div class="media-body">
+                                    <h3 class="media-heading">
+                                        Выберите категорию
+                                    </h3>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                               id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Default radio
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Popular News -->
+
+
+
+                    </div>
+                    <!--Settings Section-->
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="related_news">
                             <div class="entity_inner__title header_purple">
                                 <h2><a href="#">Related News</a></h2>
@@ -131,361 +195,8 @@
                             </div>
                         </div>
                         <!-- Related news -->
-
-
                     </div>
-                    <!--Left Section-->
-
-                    <div class="col-md-4">
-                        <div class="widget">
-                            <div class="widget_title widget_black">
-                                <h2><a href="#">Настройки поста</a></h2>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right1.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Canon launches photo centric 00214 Model
-                                            supper shutter camera</a>
-                                    </h3> <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right2.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Samsung galaxy note are the supper mobile
-                                            of all products.</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right3.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Apple launches photo-centric wrist watch
-                                            for Android</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right4.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Kodak Hi-Speed shutter double shot camera
-                                            comming soon</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"><i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&raquo;</a></p>
-                        </div>
-                        <!-- Popular News -->
-
-
-                        <div class="widget m30">
-                            <div class="widget_title widget_black">
-                                <h2><a href="#">Most Commented</a></h2>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right1.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Yasaki camera launches new generic hi-speed
-                                            shutter camera.</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right2.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Samsung is the best mobile in the android
-                                            market.</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right3.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Apple launches photo-centric wrist watch
-                                            for Android</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right4.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">DSLR is the most old camera at this time
-                                            readmore about new
-                                            products</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&nbsp;&raquo; </a></p>
-                        </div>
-                        <!-- Most Commented News -->
-
-
-                    </div>
-                    <!--Settings Section-->
-
-                    <div class="col-md-4">
-                        <div class="widget">
-                            <div class="widget_title widget_black">
-                                <h2><a href="#">Popular News</a></h2>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right1.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Canon launches photo centric 00214 Model
-                                            supper shutter camera</a>
-                                    </h3> <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right2.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Samsung galaxy note are the supper mobile
-                                            of all products.</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right3.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Apple launches photo-centric wrist watch
-                                            for Android</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"> <i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right4.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Kodak Hi-Speed shutter double shot camera
-                                            comming soon</a>
-                                    </h3>
-                                    <span class="media-date"><a href="#">10Aug- 2015</a>,  by: <a href="#">Eric joan</a></span>
-
-                                    <div class="widget_article_social">
-                <span>
-                    <a href="single.html" target="_self"><i class="fa fa-share-alt"></i>424</a> Shares
-                </span>
-                                        <span>
-                    <a href="single.html" target="_self"><i class="fa fa-comments-o"></i>4</a> Comments
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&raquo;</a></p>
-                        </div>
-                        <!-- Popular News -->
-
-
-                        <div class="widget m30">
-                            <div class="widget_title widget_black">
-                                <h2><a href="#">Most Commented</a></h2>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right1.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Yasaki camera launches new generic hi-speed
-                                            shutter camera.</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right2.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Samsung is the best mobile in the android
-                                            market.</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right3.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">Apple launches photo-centric wrist watch
-                                            for Android</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#"><img class="media-object" src="/assets/img/pop_right4.jpg"
-                                                     alt="Generic placeholder image"></a>
-                                </div>
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        <a href="single.html" target="_self">DSLR is the most old camera at this time
-                                            readmore about new
-                                            products</a>
-                                    </h3>
-
-                                    <div class="media_social">
-                                        <span><i class="fa fa-comments-o"></i><a href="#">4</a> Comments</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="widget_divider"><a href="#" target="_self">More News&nbsp;&nbsp;&raquo; </a></p>
-                        </div>
-                        <!-- Most Commented News -->
-
-
-                    </div>
-                    <!--Right Section-->
-
                 </div>
-                <!-- row -->
 
             </div>
             <!-- container -->
@@ -507,8 +218,7 @@ Quill.register("modules/imageResize", QuillResize)
 Quill.register("modules/imageDrop", ImageDrop);
 
 const fonts = Quill.import('attributors/class/font')
-console.log(fonts);
-// fonts.whitelist = ["Calibri", "sans-serif", "serif", "monospace"]
+fonts.whitelist = ["sans-serif", "serif", "monospace"]
 Quill.register(fonts, true)
 
 export default {
@@ -516,7 +226,8 @@ export default {
     components: {Footer, Header, VueEditor},
     data() {
         return {
-            content: "new post",
+            content: null,
+            countSliders: [],
             editorSettings: {
                 modules: {
                     imageDrop: true,
@@ -525,31 +236,56 @@ export default {
                         modules: ['Resize', 'DisplaySize']
                     },
                     toolbar: [
-                        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+                        [{header: [false, 1, 2, 3, 4, 5, 6]}],
                         ["bold", "italic", "underline", "strike"], // toggled buttons
                         [
-                            { align: "" },
-                            { align: "center" },
-                            { align: "right" },
-                            { align: "justify" }
+                            {align: ""},
+                            {align: "center"},
+                            {align: "right"},
+                            {align: "justify"}
                         ],
                         ["blockquote", "code-block"],
-                        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-                        [{ indent: "-1" }, { indent: "+1" }],
-                        [{ color: [] }, { background: [] }],
+                        [{list: "ordered"}, {list: "bullet"}, {list: "check"}],
+                        [{indent: "-1"}, {indent: "+1"}],
+                        [{color: []}, {background: []}],
                         ["link", "image", "video"],
                         ["clean"],
 
                         // This is what I have added
-                        [{ 'font': fonts.whitelist }],
+                        [{'font': fonts.whitelist}],
                     ]
                 }
             }
+        }
+    },
+    computed: {
+        dropzone(){
+            return this.$store.getters.dropzone
+        }
+    },
+    mounted() {
+        this.content += '\nhui'
+        this.$store.commit('setDropzone', this.$refs.dropzone)
+    },
+    methods: {
+        addSlider(){
+            this.countSliders.push({
+                id: this.countSliders.length + 1
+            })
         }
     }
 }
 </script>
 
-<style scoped>
+<style>
+.dz-success-mark,
+.dz-error-mark{
+    display: none;
+}
+.dropzone-field{
+    width: 100%;
+    min-height: 75px;
+    padding-top: 30px;
+}
 
 </style>

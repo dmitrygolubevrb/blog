@@ -10,7 +10,6 @@
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>
 
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/fonts/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
 
@@ -19,6 +18,8 @@
     <link href="{{ asset('assets/css/owl.carousel.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/css/owl.theme.default.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
@@ -62,8 +63,7 @@
 <!-- jquery Core-->
 <script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
 
-<!-- Bootstrap -->
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
 
 <!-- Theme Menu -->
 <script src="{{ asset('assets/js/mobile-menu.js') }}"></script>
@@ -73,5 +73,8 @@
 
 <!-- Theme Script -->
 <script src="{{ asset('assets/js/script.js') }}"></script>
+
+<!-- Bootstrap -->
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 </body>
 </html>
