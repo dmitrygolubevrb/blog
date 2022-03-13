@@ -21,23 +21,24 @@
                                     </div>
                                 <div class="row entity_content input-image-group">
                                     <div class="col-md-6">
-                                        <label for="main-image" class="form-label">Главное изображение</label>
+                                        <label class="form-label">Главное изображение</label>
                                         <div ref="dropzone" id="main-image" class="p-5 btn d-block mb-3  bg-success dropzone-field">
                                             Перетащите изображение сюда
                                         </div>
                                     </div>
 
-                                        <div class="col-md-6 slider-group" v-for="item in this.countSliders" :key="item.id">
-                                            <label class="form-label">Добавление слайдера</label>
-                                            <div ref="dropzone-slider" class="p-5 btn d-block mb-3  bg-success dropzone-field">
+                                        <div class="col-md-6 slider-group" v-if="slider" v-for="slider in sliders" :key="slider.id">
+                                            <label class="form-label">{{ `Слайдер ${slider.id}` }}</label>
+                                            <div ref="`dropzone_slider_${slide.id}`" class="p-5 btn d-block mb-3 bg-success dropzone-slider-field">
                                                 Перетащите изображение сюда
                                             </div>
+                                            <div @click.prevent="$store.commit('destroySlider', slider.id)"><i class="fa fa-times-circle delete-slider-field"></i></div>
                                         </div>
 
 
                                     <div class="col-md-2">
                                         <label class="form-label">Добавить слайдер</label>
-                                        <div class="mt-3 p-5 btn d-block mb-3  bg-success dropzone-field" @click.prevent="addSlider"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                                        <div class="mt-3 p-5 btn d-block mb-3  bg-success dropzone-field" @click.prevent="$store.commit('addSlider')"><i class="fa fa-plus" aria-hidden="true"></i></div>
                                     </div>
                                 </div>
 
@@ -227,7 +228,6 @@ export default {
     data() {
         return {
             content: null,
-            countSliders: [],
             editorSettings: {
                 modules: {
                     imageDrop: true,
@@ -256,23 +256,30 @@ export default {
                     ]
                 }
             }
+
         }
     },
     computed: {
-        dropzone(){
-            return this.$store.getters.dropzone
+        mainImageDropzone(){
+            return this.$store.getters.dropzones
+        },
+        sliders(){
+            return this.$store.getters.sliders
         }
     },
     mounted() {
-        this.content += '\nhui'
-        this.$store.commit('setDropzone', this.$refs.dropzone)
+        this.$store.commit('setMainImageDropzone', this.$refs.dropzone)
     },
     methods: {
-        addSlider(){
-            this.countSliders.push({
-                id: this.countSliders.length + 1
-            })
-        }
+
+
+    },
+    updated() {
+        // if(this.sliders.length){
+        //     this.sliders.map((item) => {
+        //         this.$store.commit('addDropzone', {ref: this.$refs[`dropzone_slider_${item.id}`][0], name: `dropzone_slider_${item.id}`})
+        //     })
+        // }
     }
 }
 </script>
@@ -282,10 +289,23 @@ export default {
 .dz-error-mark{
     display: none;
 }
-.dropzone-field{
+.dropzone-field,
+.dropzone-slider-field{
     width: 100%;
     min-height: 75px;
     padding-top: 30px;
+}
+.slider-group{
+    position: relative;
+}
+.delete-slider-field{
+    position: absolute;
+    top: 10px;
+    right: 0;
+    font-size: 28px;
+}
+.delete-slider-field:hover{
+    color: #ff4050;
 }
 
 </style>

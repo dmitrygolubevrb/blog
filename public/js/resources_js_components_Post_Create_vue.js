@@ -225,6 +225,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -245,7 +246,6 @@ vue2_editor__WEBPACK_IMPORTED_MODULE_2__.Quill.register(fonts, true);
   data: function data() {
     return {
       content: null,
-      countSliders: [],
       editorSettings: {
         modules: {
           imageDrop: true,
@@ -287,20 +287,22 @@ vue2_editor__WEBPACK_IMPORTED_MODULE_2__.Quill.register(fonts, true);
     };
   },
   computed: {
-    dropzone: function dropzone() {
-      return this.$store.getters.dropzone;
+    mainImageDropzone: function mainImageDropzone() {
+      return this.$store.getters.dropzones;
+    },
+    sliders: function sliders() {
+      return this.$store.getters.sliders;
     }
   },
   mounted: function mounted() {
-    this.content += '\nhui';
-    this.$store.commit('setDropzone', this.$refs.dropzone);
+    this.$store.commit('setMainImageDropzone', this.$refs.dropzone);
   },
-  methods: {
-    addSlider: function addSlider() {
-      this.countSliders.push({
-        id: this.countSliders.length + 1
-      });
-    }
+  methods: {},
+  updated: function updated() {// if(this.sliders.length){
+    //     this.sliders.map((item) => {
+    //         this.$store.commit('addDropzone', {ref: this.$refs[`dropzone_slider_${item.id}`][0], name: `dropzone_slider_${item.id}`})
+    //     })
+    // }
   }
 });
 
@@ -2308,7 +2310,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dz-success-mark,\n.dz-error-mark{\n    display: none;\n}\n.dropzone-field{\n    width: 100%;\n    min-height: 75px;\n    padding-top: 30px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dz-success-mark,\n.dz-error-mark{\n    display: none;\n}\n.dropzone-field,\n.dropzone-slider-field{\n    width: 100%;\n    min-height: 75px;\n    padding-top: 30px;\n}\n.slider-group{\n    position: relative;\n}\n.delete-slider-field{\n    position: absolute;\n    top: 10px;\n    right: 0;\n    font-size: 28px;\n}\n.delete-slider-field:hover{\n    color: #ff4050;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15748,14 +15750,9 @@ var render = function () {
                       { staticClass: "row entity_content input-image-group" },
                       [
                         _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-label",
-                              attrs: { for: "main-image" },
-                            },
-                            [_vm._v("Главное изображение")]
-                          ),
+                          _c("label", { staticClass: "form-label" }, [
+                            _vm._v("Главное изображение"),
+                          ]),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -15773,34 +15770,57 @@ var render = function () {
                           ),
                         ]),
                         _vm._v(" "),
-                        _vm._l(this.countSliders, function (item) {
-                          return _c(
-                            "div",
-                            {
-                              key: item.id,
-                              staticClass: "col-md-6 slider-group",
-                            },
-                            [
-                              _c("label", { staticClass: "form-label" }, [
-                                _vm._v("Добавление слайдера"),
-                              ]),
-                              _vm._v(" "),
-                              _c(
+                        _vm._l(_vm.sliders, function (slider) {
+                          return slider
+                            ? _c(
                                 "div",
                                 {
-                                  ref: "dropzone-slider",
-                                  refInFor: true,
-                                  staticClass:
-                                    "p-5 btn d-block mb-3  bg-success dropzone-field",
+                                  key: slider.id,
+                                  staticClass: "col-md-6 slider-group",
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                            Перетащите изображение сюда\n                                        "
+                                  _c("label", { staticClass: "form-label" }, [
+                                    _vm._v(_vm._s("Слайдер " + slider.id)),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      ref: "`dropzone_slider_${slide.id}`",
+                                      refInFor: true,
+                                      staticClass:
+                                        "p-5 btn d-block mb-3 bg-success dropzone-slider-field",
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                            Перетащите изображение сюда\n                                        "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      on: {
+                                        click: function ($event) {
+                                          $event.preventDefault()
+                                          return _vm.$store.commit(
+                                            "destroySlider",
+                                            slider.id
+                                          )
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass:
+                                          "fa fa-times-circle delete-slider-field",
+                                      }),
+                                    ]
                                   ),
                                 ]
-                              ),
-                            ]
-                          )
+                              )
+                            : _vm._e()
                         }),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-md-2" }, [
@@ -15816,7 +15836,7 @@ var render = function () {
                               on: {
                                 click: function ($event) {
                                   $event.preventDefault()
-                                  return _vm.addSlider.apply(null, arguments)
+                                  return _vm.$store.commit("addSlider")
                                 },
                               },
                             },

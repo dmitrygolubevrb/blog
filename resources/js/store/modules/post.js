@@ -3,28 +3,33 @@ import Dropzone from 'dropzone'
 
 
 const state = {
-    dropzone: null
+    mainImageDropzone: null,
+    sliders: []
 }
 
 const getters = {
-    dropzone: () => state.dropzone,
+    mainImageDropzone: () => state.mainImageDropzone,
+    sliders: () => state.sliders
 }
 
 const mutations = {
-    setDropzone(state, ref){
-        state.dropzone = new Dropzone(ref, {
+    setMainImageDropzone(state, ref) {
+        state.mainImageDropzone = new Dropzone(ref, {
             url: 'api/posts',
             autoProcessQueue: false,
             addRemoveLinks: true
         })
+    },
+    addSlider(state) {
+        state.sliders.push({id: state.sliders.length + 1})
+    },
+    destroySlider(state, id) {
+        console.log(state.sliders);
     }
 }
 
-const actions = {
+const actions = {}
 
-}
-
-//Чтобы все заработало
 export default {
     state, mutations, getters, actions
 }

@@ -5771,24 +5771,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var state = {
-  dropzone: null
+  mainImageDropzone: null,
+  sliders: []
 };
 var getters = {
-  dropzone: function dropzone() {
-    return state.dropzone;
+  mainImageDropzone: function mainImageDropzone() {
+    return state.mainImageDropzone;
+  },
+  sliders: function sliders() {
+    return state.sliders;
   }
 };
 var mutations = {
-  setDropzone: function setDropzone(state, ref) {
-    state.dropzone = new dropzone__WEBPACK_IMPORTED_MODULE_1__["default"](ref, {
+  setMainImageDropzone: function setMainImageDropzone(state, ref) {
+    state.mainImageDropzone = new dropzone__WEBPACK_IMPORTED_MODULE_1__["default"](ref, {
       url: 'api/posts',
       autoProcessQueue: false,
       addRemoveLinks: true
     });
+  },
+  addSlider: function addSlider(state) {
+    state.sliders.push({
+      id: state.sliders.length + 1
+    });
+  },
+  destroySlider: function destroySlider(state, id) {
+    console.log(state.sliders);
   }
 };
-var actions = {}; //Чтобы все заработало
-
+var actions = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: state,
   mutations: mutations,
@@ -10842,7 +10853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.logo img[data-v-0d531f54]{\n    height: 25%;\n    width: 25%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.logo img[data-v-0d531f54]{\r\n    height: 25%;\r\n    width: 25%;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
