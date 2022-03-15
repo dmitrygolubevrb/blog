@@ -10,7 +10,6 @@
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'>
 
-
     <link href="{{ asset('assets/fonts/font-awesome/font-awesome.min.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/css/mobile-menu.css') }}" rel="stylesheet">

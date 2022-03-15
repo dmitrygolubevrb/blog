@@ -1,63 +1,23 @@
 <template>
     <div>
-
         <section id="entity_section" class="entity_section">
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="entity_wrapper">
                             <div class="entity_title">
-                                <h1><a href="#">Создание поста</a></h1>
+                                <h1><a href="#">Добавить категорию</a></h1>
                             </div>
                             <!-- entity_title -->
 
                             <div class="entity_content">
                                 <div class="row entity_content">
                                     <div class="col-md-6">
-                                        <label for="title" class="form-label">Заголовок поста</label>
-                                        <input type="text" class="form-control" id="title">
+                                        <label for="title" class="form-label">Название категории</label>
+                                        <input v-model="title" type="text" class="form-control" id="title">
                                     </div>
                                 </div>
-                                <div class="row entity_content input-image-group">
-                                    <div class="col-md-6">
-                                        <div>
-                                            <label class="form-label">Главное изображение</label>
-                                            <div ref="dropzone" id="main-image"
-                                                 class="p-5 btn d-block mb-3  bg-success dropzone-field">
-                                                Перетащите изображение сюда
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 slider-group" v-if="slider" v-for="(slider, key) in sliders"
-                                         :key="slider.id">
-                                        <div>
-                                            <label class="form-label">{{ `Слайдер ${++key}` }}</label>
-                                            <div :ref="`dropzone_slider_${slider.id}`"
-                                                 class="p-5 btn d-block mb-3 bg-success dropzone-slider-field">
-                                                Перетащите изображение сюда
-                                            </div>
-                                            <div @click.prevent="destroySlider(slider.id)"><i
-                                                class="fa fa-times-circle delete-slider-field"></i></div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-2">
-                                        <label class="form-label">Добавить слайдер</label>
-                                        <div class="mt-3 p-5 btn d-block mb-3  bg-success dropzone-field"
-                                             @click.prevent="addSlider"><i class="fa fa-plus"
-                                                                           aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row entity_content">
-                                    <div class="col-md-12">
-                                        <vue-editor :editorOptions="editorSettings" useCustomImageHandler
-                                                    @image-added="handleImageAdded" v-model="content"></vue-editor>
-                                        <div v-html="content" class="ql-editor"></div>
-                                    </div>
-                                </div>
+                                <input type="submit" value="Add" class="btn btn-success" @click.prevent="$store.dispatch('storeCategory', title)">
                             </div>
                             <!-- entity_content -->
 
@@ -84,32 +44,6 @@
                     </div>
                     <!--Left Section-->
 
-                    <div class="col-md-3">
-                        <div class="widget">
-                            <div class="">
-                                <h2>Настройки публикации</h2>
-                            </div>
-                            <div class="">
-                                <div class="media-body">
-                                    <h3 class="media-heading">
-                                        Выберите категорию
-                                    </h3>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                               id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            Default radio
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Popular News -->
-
-
-                    </div>
-                    <!--Settings Section-->
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -217,86 +151,28 @@
 </template>
 
 <script>
-
-import editorSettings from '../../config/vueEditor'
 import {mapGetters} from 'vuex'
-
+import {mapMutations} from 'vuex'
 
 export default {
     name: "Create",
     components: {},
-    data() {
-        return {
-            content: '',
-            editorSettings: editorSettings
-        }
-    },
     computed: {
-        ...mapGetters({
-            mainImageDropzone: 'mainImageDropzone',
-            sliders: 'sliders'
-        })
-    },
-    mounted() {
-        this.$store.commit('setMainImageDropzone', this.$refs.dropzone)
-    },
-    methods: {
-        addSlider() {
-            let sliders = this.$store.getters.sliders
-            let id = !sliders.length ? 1 : sliders[sliders.length - 1].id + 1
-            this.$store.commit('addSlider', id)
-            this.$nextTick(function () {
-                this.$store.commit('setDropzoneForSlider', {id, ref: this.$refs[`dropzone_slider_${id}`][0]})
-                this.content += `<h6 id="${id}">Slider ${this.$store.getters.sliders.length}</h6>`
-            })
-        },
-        destroySlider(id) {
-            this.$store.commit('destroySlider', id)
-            document.getElementById(id).remove()
-        },
-        handleImageAdded(file, Editor, cursorLocation, resetUploader) {
-            const formData = new FormData()
-            formData.append('image', file)
-            axios.post('api/posts/images', formData)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-            Editor.insertEmbed(cursorLocation, 'image')
-            resetUploader()
+        title: {
+            get(){
+                 return this.$store.getters.title
+            },
+            set(title){
+                this.$store.commit('setTitle', title)
+            }
         }
     },
+    actions: {
+
+    }
 }
 </script>
 
-<style>
-.dz-success-mark,
-.dz-error-mark {
-    display: none;
-}
-
-.dropzone-field,
-.dropzone-slider-field {
-    width: 100%;
-    min-height: 75px;
-    padding-top: 30px;
-}
-
-.slider-group {
-    position: relative;
-}
-
-.delete-slider-field {
-    position: absolute;
-    top: 10px;
-    right: 0;
-    font-size: 28px;
-}
-
-.delete-slider-field:hover {
-    color: #ff4050;
-}
+<style scoped>
 
 </style>

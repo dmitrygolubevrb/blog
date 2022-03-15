@@ -1,7 +1,5 @@
 <template>
     <div>
-        <Header></Header>
-
         <section id="feature_news_section" class="feature_news_section">
             <div class="container">
                 <div class="row">
@@ -1172,16 +1170,14 @@
             </div>
         </section>
 
-        <Footer></Footer>
     </div>
 </template>
 
 <script>
-import Header from "../Includes/Header";
-import Footer from "../Includes/Footer";
+
 export default {
     name: "Index",
-    components: {Footer, Header}
+    components: {}
 }
 </script>
 

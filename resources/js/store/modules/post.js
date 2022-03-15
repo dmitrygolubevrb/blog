@@ -1,15 +1,15 @@
-import router from "../../router";
 import Dropzone from 'dropzone'
 
 
 const state = {
     mainImageDropzone: null,
-    sliders: []
+    sliders: [],
 }
 
 const getters = {
     mainImageDropzone: () => state.mainImageDropzone,
-    sliders: () => state.sliders
+    sliders: () => state.sliders,
+
 }
 
 const mutations = {
@@ -20,15 +20,26 @@ const mutations = {
             addRemoveLinks: true
         })
     },
-    addSlider(state) {
-        state.sliders.push({id: state.sliders.length + 1})
+    addSlider(state, id) {
+        state.sliders.push({id})
+    },
+    setDropzoneForSlider(state, data){
+        state.sliders[state.sliders.length - 1][`dropzone_slider_${data.id}`] = new Dropzone(data.ref, {
+            url: 'api/posts',
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            maxFilesize: 50
+        })
     },
     destroySlider(state, id) {
-        console.log(state.sliders);
-    }
+        state.sliders = state.sliders.filter((slider, key) => {
+            return !(slider.id === id)
+        })
+    },
 }
 
-const actions = {}
+const actions = {
+}
 
 export default {
     state, mutations, getters, actions
