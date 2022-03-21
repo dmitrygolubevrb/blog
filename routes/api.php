@@ -26,6 +26,15 @@ Route::group(['prefix' => 'posts', 'namespace' => 'Post'], function(){
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
    Route::group(['prefix' => 'categories', 'namespace' => 'Category'], function(){
-//       Route::post('/', 'StoreController');
+       Route::get('/', 'IndexController');
+       Route::post('/', 'StoreController');
+       Route::delete('/{category}', 'DestroyController');
+       Route::patch('/{category}', 'UpdateController');
+   });
+   Route::group(['prefix' => 'tags', 'namespace' => 'Tag'], function(){
+       Route::get('/', 'IndexController');
+       Route::post('/', 'StoreController');
+       Route::delete('/{tag}', 'DestroyController');
+       Route::patch('/{tag}', 'UpdateController');
    });
 });

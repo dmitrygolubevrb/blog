@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Category;
+namespace App\Http\Controllers\Admin\Tag;
 
-use App\Http\Requests\Admin\Category\StoreRequest;
-use App\Http\Resources\Category\CategoryResource;
+use App\Http\Requests\Admin\Tag\StoreRequest;
+use App\Http\Resources\Tag\TagResource;
 
 class StoreController extends BaseController
 {
 
-
     /**
      * @param StoreRequest $request
-     * Handle the incoming request.
      */
     public function __invoke(StoreRequest $request)
     {
         $data = $request->validated();
         $result = $this->service->store($data);
-        return new CategoryResource($result);
+        return new TagResource($result);
     }
 }

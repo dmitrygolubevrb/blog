@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Category;
+namespace App\Http\Requests\Admin\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,16 +24,16 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:categories,title'
+            'title' => 'required|string|unique:tags,title'
         ];
     }
 
     public function messages()
     {
         return [
-            'title.required' => 'Необходимо заполнить название категории',
-            'title.string' => 'Название категории должно быть строкой',
-            'title.unique' => "Категория $this->title уже существует или находится в корзине"
+            'title.required' => 'Необходимо заполнить название тега',
+            'title.string' => 'Название тега должно быть строкой',
+            'title.unique' => "Тег $this->title уже существует или находится в корзине"
         ];
     }
 }

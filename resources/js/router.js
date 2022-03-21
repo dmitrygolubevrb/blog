@@ -14,20 +14,27 @@ export default new VueRouter({
             name: 'main.index'  // Имя роута по аналогии с laravel,
         },
         {
-            path: '/posts/create',
-            component: () => import('./components/Post/Create'),   //Второй метод импорта
-            name: 'post.create'  // Имя роута по аналогии с laravel
-        },
-        {
-            path: '/admin/categories/create',
-            component: () => import('./components/Category/Create'),
-            name: 'category.create'
-        },
-        {
             path: '/admin',
             component: () => import('./components/Admin/Index'),
             name: 'admin.index'
         },
+        {
+            path: '/admin/categories',
+            component: () => import('./components/Admin/Category/Index'),
+            name: 'admin.category.index'
+        },
+        {
+            path: '/admin/tags',
+            component: () => import('./components/Admin/Tag/Index'),
+            name: 'admin.tag.index'
+        },
+        {
+            path: '/posts/create',
+            component: () => import('./components/Post/Create'),
+            name: 'post.create'
+        },
+
+
 
     ]
 })
