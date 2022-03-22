@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Post\Image;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Image\StoreRequest;
-use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
     public function __invoke(StoreRequest $request)
     {
         $data = $request->validated();
-        dd($data);
+        $image = $data['image'];
+        $name = $image->getClientOriginalName();
+        $ext = $image->getClientOriginalExtension();
+        Image::make($data['image'])->resize(1640,859)->save(storage_path('app/public/images/img'  .'.'. $ext));
+
     }
 }

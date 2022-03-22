@@ -84,7 +84,7 @@
 <script>
 
 import editorSettings from '../../config/vueEditor'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters} from 'vuex'
 
 
 export default {
@@ -143,13 +143,12 @@ export default {
         this.$store.dispatch('getTags')
     },
     methods: {
-        getCategoryId() {
-            console.log('hui')
-        },
+
         handleImageAdded(file, Editor, cursorLocation, resetUploader) {
             const formData = new FormData()
             formData.append('image', file)
-            axios.post('api/posts/images', formData)
+            console.log('image')
+            axios.post('/api/posts/images', formData)
                 .then(res => {
                     console.log(res);
                 })
