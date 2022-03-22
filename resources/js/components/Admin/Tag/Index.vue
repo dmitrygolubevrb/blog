@@ -61,32 +61,6 @@ export default {
 </script>
 
 <style>
-input {
-    border: none;
-    border-bottom: 1px solid #adb5bd;
-    outline: none;
-    background: transparent;
-}
 
-i {
-    display: inline-block;
-    font-size: 14pt;
-    margin-right: 15px;
-}
-i.save:hover{
-    color: #08668a;
-}
-i.add:hover,
-i.edit:hover{
-    color: #388a33;
-}
-i.cancel:hover,
-i.destroy:hover{
-    color: #ac3d30;
-}
-
-input:focus {
-    border-bottom: 1px solid #34383c;
-}
 
 </style>

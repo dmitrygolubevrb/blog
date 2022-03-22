@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('js/app.js') }}">
-    <!-- Bootstrap CSS -->
-    <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Jquery -->
-    <script src="{{ asset('dist/js/jquery.min.js') }}"></script>
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('dist/js/bootstrap.bundle.min.js') }}"></script>
     <title>Blog</title>
 </head>
 <body>

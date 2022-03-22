@@ -3,13 +3,16 @@ import Dropzone from 'dropzone'
 
 const state = {
     mainImageDropzone: null,
-    sliders: [],
+    categoryId: '',
+    tagIds: [],
+    content: null,
 }
 
 const getters = {
     mainImageDropzone: () => state.mainImageDropzone,
-    sliders: () => state.sliders,
-
+    categoryId: () => state.categoryId,
+    tagIds: () => state.tagIds,
+    content: () => state.content
 }
 
 const mutations = {
@@ -20,22 +23,15 @@ const mutations = {
             addRemoveLinks: true
         })
     },
-    addSlider(state, id) {
-        state.sliders.push({id})
+    setCategoryId(state, id){
+        state.categoryId = id
     },
-    setDropzoneForSlider(state, data){
-        state.sliders[state.sliders.length - 1][`dropzone_slider_${data.id}`] = new Dropzone(data.ref, {
-            url: 'api/posts',
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            maxFilesize: 50
-        })
+    setTagIds(state, id){
+        state.tagIds = id
     },
-    destroySlider(state, id) {
-        state.sliders = state.sliders.filter((slider, key) => {
-            return !(slider.id === id)
-        })
-    },
+    setContent(state, content){
+        state.content = content
+    }
 }
 
 const actions = {

@@ -3,7 +3,7 @@ const state = {
     tag: {
         title: null
     },
-    isAddition: false,
+    isAdditionTag: false,
     tags: null,
     editTagId: null,
 }
@@ -12,7 +12,7 @@ const getters = {
     tag: () => state.tag,
     tags: () => state.tags,
     editTagId: () => state.editTagId,
-    isAddition: () => state.isAddition
+    isAdditionTag: () => state.isAdditionTag
 }
 
 const mutations = {
@@ -25,12 +25,12 @@ const mutations = {
     setEditTagId(state, id) {
         state.editTagId = id
     },
-    setIsAddition(state){
+    setIsAdditionTag(state){
         state.tag = {
             title: null
         }
         state.editTagId = null
-        state.isAddition = !state.isAddition
+        state.isAdditionTag = !state.isAdditionTag
         state.tag = {title: null}
     }
 }
@@ -43,7 +43,7 @@ const actions = {
                 .then(() => commit('setIsAddition'))
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Тег ${data.title} успешно создан`}))
         }).catch(error => {
-            data.notification({type: 'error', title: 'Ошибка создания', text: error.response.data.message})
+            data.notification({type: 'error', title: 'Ошибка добавления тега', text: error.response.data.message})
         })
     },
 
@@ -75,7 +75,7 @@ const actions = {
     },
 
     changeEditTagId({commit, state}, tag) {
-        if(state.isAddition) commit('setIsAddition')
+        if(state.isAdditionTag) commit('setIsAdditionTag')
         commit('setEditTagId', tag.id)
         commit('setTag', tag)
     },
@@ -84,7 +84,7 @@ const actions = {
         commit('setTag', {id: null, title: null})
     },
     showAddTag({commit}){
-        commit('setIsAddition')
+        commit('setIsAdditionTag')
     }
 }
 
