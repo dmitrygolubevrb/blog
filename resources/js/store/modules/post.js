@@ -6,13 +6,17 @@ const state = {
     categoryId: '',
     tagIds: [],
     content: null,
+    isShowPreview: false,
+    title: null
 }
 
 const getters = {
     mainImageDropzone: () => state.mainImageDropzone,
     categoryId: () => state.categoryId,
     tagIds: () => state.tagIds,
-    content: () => state.content
+    content: () => state.content,
+    title: () => state.title,
+    isShowPreview: () => state.isShowPreview
 }
 
 const mutations = {
@@ -31,6 +35,12 @@ const mutations = {
     },
     setContent(state, content){
         state.content = content
+    },
+    toggleShowPreview(state){
+        state.isShowPreview = !state.isShowPreview
+    },
+    setTitle(state, title){
+        state.title = title
     }
 }
 

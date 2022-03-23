@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-6">
                     <label for="title" class="form-label">Заголовок поста</label>
-                    <input type="text" class="form-control" id="title">
+                    <input v-model="title" type="text" class="form-control" id="title">
                 </div>
             </div>
             <div class="row mt-4">
@@ -22,10 +22,24 @@
             <div class="row mt-4">
                 <div class="col-11">
                     <vue-editor :editorOptions="editorSettings" useCustomImageHandler
-                                @image-added="handleImageAdded" v-model="content"></vue-editor>
-                    <div v-html="content" class="ql-editor"></div>
+                                @image-added="handleImageAdded" @image-removed="removeIm"
+                                v-model="content"></vue-editor>
+                    <button
+                        @click="$store.commit('toggleShowPreview')"
+                        type="button" class="btn btn-outline-secondary mt-3 mb-4">
+                        Предпросмотр
+                    </button>
                 </div>
             </div>
+            <div class="row mt-3 mb-4">
+                <div class="col">
+                    <div v-bind:class="{'d-none': !$store.getters.isShowPreview}" class="preview-section border">
+                        <div class="blog-title fs-3 mb-5 text-center">{{ title }}</div>
+                        <div v-html="content" class="ql-editor mt-3 mb-5"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="col-3">
@@ -49,12 +63,14 @@
                 <div class="tags-title">
                     <p class="fs-5">
                         Выберите теги
-                        <span><i class="fa-solid fa-plus add" @click.prevent="$store.commit('setIsAdditionTag')"></i></span>
+                        <span><i class="fa-solid fa-plus add"
+                                 @click.prevent="$store.commit('setIsAdditionTag')"></i></span>
                     </p>
                 </div>
                 <div class="checkbox-container">
 
-                    <div class="create-tag-block mb-3 d-flex align-items-baseline" v-bind:class="{'d-none': !isAdditionTag}">
+                    <div class="create-tag-block mb-3 d-flex align-items-baseline"
+                         v-bind:class="{'d-none': !isAdditionTag}">
                         <input v-model="category.title" class="w-75" type="text">
                         <i v-bind:class="{'d-none': !isAdditionTag}"
                            @click.prevent="$store.dispatch('storeTag', {title: category.title, notification: $notify})"
@@ -78,6 +94,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -105,7 +122,7 @@ export default {
             isAdditionTag: 'isAdditionTag',
         }),
         tagIds: {
-            set(id){
+            set(id) {
                 this.$store.commit('setTagIds', id)
             },
             get() {
@@ -113,27 +130,35 @@ export default {
             }
         },
         categoryId: {
-            set(id){
+            set(id) {
                 this.$store.commit('setCategoryId', id)
             },
-            get(){
+            get() {
                 return this.$store.getters.categoryId
             }
         },
         category: {
-            set(category){
+            set(category) {
                 this.$store.commit('setCategory', category)
             },
-            get(){
+            get() {
                 return this.$store.getters.category
             }
         },
         content: {
-            set(content){
+            set(content) {
                 this.$store.commit('setContent', content)
             },
-            get(){
+            get() {
                 return this.$store.getters.content
+            }
+        },
+        title: {
+            set(title){
+                this.$store.commit('setTitle', title)
+            },
+            get(){
+                return this.$store.getters.title
             }
         }
     },
@@ -143,20 +168,18 @@ export default {
         this.$store.dispatch('getTags')
     },
     methods: {
-
         handleImageAdded(file, Editor, cursorLocation, resetUploader) {
             const formData = new FormData()
             formData.append('image', file)
-            console.log('image')
             axios.post('/api/posts/images', formData)
                 .then(res => {
-                    console.log(res);
+                    let url = res.data.url
+                    Editor.insertEmbed(cursorLocation, 'image', url)
+                    resetUploader()
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.$notify({type: 'error', title: 'Ошибка загрузки', text: error.data.message})
                 })
-            Editor.insertEmbed(cursorLocation, 'image')
-            resetUploader()
         }
     },
 }
@@ -178,6 +201,10 @@ export default {
 .tags-list {
     max-height: 250px;
     overflow-y: scroll;
+}
+
+nav.navbar .dropdown:hover > .dropdown-menu {
+    display: block;
 }
 
 </style>

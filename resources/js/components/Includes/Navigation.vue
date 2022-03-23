@@ -19,12 +19,13 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Dropdown
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
+                                <div class="dropdown-menu">
+                                    <div class="d-inline-block">lol</div>
+                                    <div class="d-inline-block">dsad</div>
+                                    <div class="d-inline-block">vcxv</div>
+                                    <div class="d-inline-block">htg</div>
+                                    <div class="d-inline-block">okj</div>
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
