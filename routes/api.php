@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'posts', 'namespace' => 'Post'], function(){
+    Route::post('/', 'StoreController');
    Route::group(['prefix' => 'images', 'namespace' => 'Image'], function(){
       Route::post('/', 'StoreController');
    });

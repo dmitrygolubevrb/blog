@@ -12,8 +12,8 @@
                     <div>
                         <label class="form-label">Главное изображение</label>
                         <div ref="dropzone" id="main-image"
-                             class="p-5 btn d-block mb-3  bg-success dropzone-field">
-                            Перетащите изображение сюда
+                             class="p-5 btn d-block mb-3 text-white  bg-secondary dropzone-field">
+                            <span class="title">Перетащите изображение сюда</span>
                         </div>
                     </div>
                 </div>
@@ -22,21 +22,35 @@
             <div class="row mt-4">
                 <div class="col-11">
                     <vue-editor :editorOptions="editorSettings" useCustomImageHandler
-                                @image-added="handleImageAdded" @image-removed="removeIm"
+                                @image-added="handleImageAdded"
                                 v-model="content"></vue-editor>
                     <button
+                        @click="$store.dispatch('storePost', $notify)"
+                        type="button" class="btn btn-outline-success mt-3 mb-4 me-2"
+                        :disabled="!content">
+                        Опубликовать
+                    </button>
+                    <transition name="slide-fade" appear>
+                    <button
                         @click="$store.commit('toggleShowPreview')"
+                        v-show="content"
                         type="button" class="btn btn-outline-secondary mt-3 mb-4">
                         Предпросмотр
                     </button>
+                    </transition>
                 </div>
             </div>
             <div class="row mt-3 mb-4">
                 <div class="col">
-                    <div v-bind:class="{'d-none': !$store.getters.isShowPreview}" class="preview-section border">
+                    <transition name="slide-fade">
+                    <div v-show="$store.getters.isShowPreview" class="preview-section border">
                         <div class="blog-title fs-3 mb-5 text-center">{{ title }}</div>
+                        <div v-show="mainImage" class="main-image">
+                            <img :src="mainImage" alt="main-image" class="container-fluid">
+                        </div>
                         <div v-html="content" class="ql-editor mt-3 mb-5"></div>
                     </div>
+                    </transition>
                 </div>
             </div>
 
@@ -55,7 +69,7 @@
                 <select class="form-select" v-model="categoryId">
                     <option value="">Выберите категорию</option>
                     <template v-for="category in categories">
-                        <option :value="category.id">{{ category.title }}</option>
+                        <option :value="category.id" :key="category.id">{{ category.title }}</option>
                     </template>
                 </select>
             </div>
@@ -67,22 +81,19 @@
                                  @click.prevent="$store.commit('setIsAdditionTag')"></i></span>
                     </p>
                 </div>
-                <div class="checkbox-container">
-
-                    <div class="create-tag-block mb-3 d-flex align-items-baseline"
-                         v-bind:class="{'d-none': !isAdditionTag}">
-                        <input v-model="category.title" class="w-75" type="text">
-                        <i v-bind:class="{'d-none': !isAdditionTag}"
-                           @click.prevent="$store.dispatch('storeTag', {title: category.title, notification: $notify})"
+                <div class="checkbox-container" appear>
+                    <transition name="slide-fade">
+                    <div v-if="isAdditionTag" class="create-tag-block mb-3 d-flex align-items-baseline">
+                        <input  v-model="category.title" class="w-75" type="text">
+                        <i @click.prevent="$store.dispatch('storeTag', {title: category.title, notification: $notify})"
                            class="fa fa-floppy-o me-2 ms-2 save" aria-hidden="true"/>
-                        <i v-bind:class="{'d-none': !isAdditionTag}"
-                           @click.prevent="$store.commit('setIsAdditionTag')"
+                        <i @click.prevent="$store.commit('setIsAdditionTag')"
                            class="fa-solid fa-circle-xmark cancel"></i>
                     </div>
-
+                    </transition>
                     <div class="tags-list ps-1">
                         <template v-for="tag in tags">
-                            <div class="form-check">
+                            <div class="form-check" :key="tag.id">
                                 <input v-model="tagIds" class="form-check-input" type="checkbox" :value="tag.id"
                                        :id="tag.id">
                                 <label class="form-check-label" :for="tag.id">
@@ -102,6 +113,7 @@
 
 import editorSettings from '../../config/vueEditor'
 import {mapGetters} from 'vuex'
+import Dropzone from "dropzone";
 
 
 export default {
@@ -109,14 +121,12 @@ export default {
     components: {},
     data() {
         return {
-
-            editorSettings: editorSettings
+            editorSettings
         }
     },
     computed: {
         ...mapGetters({
             mainImageDropzone: 'mainImageDropzone',
-            sliders: 'sliders',
             categories: 'categories',
             tags: 'tags',
             isAdditionTag: 'isAdditionTag',
@@ -154,16 +164,24 @@ export default {
             }
         },
         title: {
-            set(title){
+            set(title) {
                 this.$store.commit('setTitle', title)
             },
-            get(){
+            get() {
                 return this.$store.getters.title
+            }
+        },
+        mainImage: {
+            set(){
+                this.$store.commit('setMainImage')
+            },
+            get(){
+                return this.$store.getters.mainImage
             }
         }
     },
     mounted() {
-        this.$store.commit('setMainImageDropzone', this.$refs.dropzone)
+        this.$store.dispatch('loadMainImageDropzone', {ref: this.$refs.dropzone, dropzone: Dropzone})
         this.$store.dispatch('getCategories')
         this.$store.dispatch('getTags')
     },
@@ -206,5 +224,21 @@ export default {
 nav.navbar .dropdown:hover > .dropdown-menu {
     display: block;
 }
-
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+.dz-remove {
+    color: #ffffff;
+    text-decoration: none;
+}
+.dz-remove:hover {
+    color: #ac3d30;
+}
 </style>
