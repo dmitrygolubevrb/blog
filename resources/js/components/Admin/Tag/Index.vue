@@ -37,6 +37,7 @@
 import Edit from "./Edit";
 import Show from './Show'
 import Create from "./Create";
+
 export default {
     name: "Index",
     components: {Edit, Show, Create},

@@ -25,7 +25,7 @@ const mutations = {
     setEditCategoryId(state, id) {
         state.editCategoryId = id
     },
-    setIsAddition(state){
+    setIsAdditionCategory(state){
         state.category = {
             title: null
         }
@@ -40,7 +40,6 @@ const actions = {
         axios.post('/api/admin/categories', {title: data.title}).then(() => {
             dispatch('getCategories')
                 .then(() => commit('setCategory', {title: null}))
-                .then(() => commit('setIsAddition'))
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Категория ${data.title} успешно создана`}))
         }).catch(error => {
             data.notification({type: 'error', title: 'Ошибка создания', text: error.response.data.message})
@@ -49,7 +48,7 @@ const actions = {
 
     destroyCategory({dispatch}, data) {
         axios.delete(`/api/admin/categories/${data.category.id}`).then(res => {
-            dispatch('getCategories')
+            dispatch('getCategories', data.notification)
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Категория ${data.category.title} успешно удалена`}))
         }).catch(error => {
             data.notification({type: 'error', title: 'Ошибка удаления', text: error.response.data.message})
@@ -67,15 +66,21 @@ const actions = {
     },
 
     getCategories({commit}, notify) {
+
         axios.get('/api/admin/categories').then(categories => {
-            commit('setCategories', categories.data.data)
+            if(categories.data.data.length){
+                commit('setCategories', categories.data.data)
+            }else{
+                commit('setCategories', null)
+                notify({type: 'warn', title: 'Категории', text: 'Необходимо добавить категории'})
+            }
         }).catch(error => {
             notify({type: 'error', title: 'Ошибка загрузки', text: error.response.data.message})
         })
     },
 
     changeEditCategoryId({commit, state}, category) {
-        if(state.isAdditionCategory) commit('setIsAddition')
+        if(state.isAdditionCategory) commit('setIsAdditionCategory')
         commit('setEditCategoryId', category.id)
         commit('setCategory', category)
     },
@@ -84,7 +89,7 @@ const actions = {
         commit('setCategory', {id: null, title: null})
     },
     showAddCategory({commit}){
-        commit('setIsAddition')
+        commit('setIsAdditionCategory')
     }
 }
 

@@ -16,7 +16,6 @@ class Service
 
     public function update($data, $tag)
     {
-        dd($data);
         return $tag->update($data);
     }
 

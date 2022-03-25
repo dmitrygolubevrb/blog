@@ -6,7 +6,7 @@
                     <h1>Все категории</h1>
                 </div>
 
-                <div v-if="categories" class="row mt-5">
+                <div class="row mt-5">
                     <div class="col-md-8">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped align-middle">
@@ -37,6 +37,7 @@
 import Edit from "./Edit";
 import Show from './Show'
 import Create from "./Create";
+
 export default {
     name: "Index",
     components: {Edit, Show, Create},
@@ -73,15 +74,18 @@ i {
     font-size: 14pt;
     margin-right: 15px;
 }
-i.save:hover{
+
+i.save:hover {
     color: #08668a;
 }
+
 i.add:hover,
-i.edit:hover{
+i.edit:hover {
     color: #388a33;
 }
+
 i.cancel:hover,
-i.destroy:hover{
+i.destroy:hover {
     color: #ac3d30;
 }
 

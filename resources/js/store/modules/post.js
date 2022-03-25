@@ -1,4 +1,3 @@
-
 const state = {
     mainImageDropzone: null,
     categoryId: '',
@@ -23,28 +22,28 @@ const mutations = {
     setMainImageDropzone(state, dropzone) {
         state.mainImageDropzone = dropzone
     },
-    setCategoryId(state, id){
+    setCategoryId(state, id) {
         state.categoryId = id
     },
-    setTagIds(state, id){
+    setTagIds(state, id) {
         state.tagIds = id
     },
-    setContent(state, content){
+    setContent(state, content) {
         state.content = content
     },
-    toggleShowPreview(state){
+    toggleShowPreview(state) {
         state.isShowPreview = !state.isShowPreview
     },
-    setTitle(state, title){
+    setTitle(state, title) {
         state.title = title
     },
-    setMainImage(state, mainImage){
+    setMainImage(state, mainImage) {
         state.mainImage = mainImage
     }
 }
 
 const actions = {
-    loadMainImageDropzone({commit}, data){
+    loadMainImageDropzone({commit}, data) {
         let mainImageDropzone = new data.dropzone(data.ref, {
             url: 'api/posts',
             autoProcessQueue: false,
@@ -57,9 +56,9 @@ const actions = {
             document.getElementsByClassName('dz-remove')[0].innerHTML = 'Удалить'
         })
         mainImageDropzone.on('removedfile', () => {
-            if(mainImageDropzone.files[0]){
+            if (mainImageDropzone.files[0]) {
                 commit('setMainImage', URL.createObjectURL(mainImageDropzone.files[0]))
-            }else{
+            } else {
                 commit('setMainImage', null)
                 document.getElementById('main-image').firstChild.classList.remove('d-none')
             }
@@ -70,23 +69,47 @@ const actions = {
         })
         commit('setMainImageDropzone', mainImageDropzone)
     },
-
-    storePost({state}, notification){
+    validate({state}, notification) {
         let validatedFieldsList = [
-            {field: state.title, error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо заполнить заголовок поста'}},
-            {field: state.content, error: {type: 'error', title: 'Ошибка валидации', text: 'Поле контента пусто'}},
-            {field: state.mainImage, error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо добавить главное изображение'}},
-            {field: state.categoryId, error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо выбрать любую категорию'}},
-            {field: state.tagIds, error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо добавить хотя бы один тег'}}
+            {
+                field: state.title,
+                error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо заполнить заголовок поста'}
+            },
+            {
+                field: state.content,
+                error: {type: 'error', title: 'Ошибка валидации', text: 'Поле контента пусто'}
+            },
+            {
+                field: state.mainImage,
+                error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо добавить главное изображение'}
+            },
+            {
+                field: state.categoryId,
+                error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо выбрать любую категорию'}
+            },
         ]
-        for (let item of validatedFieldsList){
-            if(!item['field']){
-                notification(item.error)
+        for (let field of validatedFieldsList) {
+            if (!field['field']) {
+                notification(field.error)
                 return false
             }
         }
-        // axios.post('api/posts', {title: this.title, preview_image: this.})
-
+        return true
+    },
+    storePost({state, dispatch}, notification) {
+        dispatch('validate', notification).then(isValid => {
+            let data = new FormData()
+            data.append('title', state.title)
+            data.append('content', state.content)
+            data.append('category_id', state.categoryId)
+            data.append('tags_ids[]', state.tagIds)
+            data.append('main_image', state.mainImageDropzone.getAcceptedFiles()[0])
+            if (isValid) {
+                axios.post('/api/posts', data).then(res => {
+                    console.log(res);
+                })
+            }
+        })
     }
 }
 

@@ -25,8 +25,28 @@ class StoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'preview_image' => 'required|file',
-            'content' => 'required|string'
+            'content' => 'required|string',
+            'main_image' => 'required|image',
+            'category_id' => 'required|exists:categories,id',
+            'tags_ids' => 'nullable|array',
+            'tags_ids.*.id' => 'nullable|integer|exists:tags,id'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Заполните заголовок поста',
+            'title.string' => 'Заголовок поста должен быть текстом',
+            'content.required' => 'Контент поста не должен быть пустым',
+            'content.string' => 'Контент поста должен быть текстом',
+            'main_image.required' => 'Необходимо загрузить главное изображение',
+            'main_image.image' => 'Изображение должно быть в формате jpg, jpeg, png, bmp, gif, svg или webp',
+            'category_id.required' => 'Необходимо выбрать категорию',
+            'category_id.exists' => 'Категория не найдена',
+            'tags_ids.array' => 'Теги должны отправляться массивом',
+            'tags_ids.*.id.integer' => 'id тега должен быть числом',
+            'tags_ids.*.id.exists' => 'Один из переданных тегов не найден'
         ];
     }
 }

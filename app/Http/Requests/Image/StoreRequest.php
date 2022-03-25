@@ -24,7 +24,15 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required|file'
+            'image' => 'required|image'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'image.required' => 'Загружаемый файл не должен быть пустым',
+            'image.image' => 'Загружаемый файл должен быть изображением'
         ];
     }
 }

@@ -40,7 +40,6 @@ const actions = {
         axios.post('/api/admin/tags', {title: data.title}).then(() => {
             dispatch('getTags')
                 .then(() => commit('setTag', {title: null}))
-                .then(() => commit('setIsAddition'))
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Тег ${data.title} успешно создан`}))
         }).catch(error => {
             data.notification({type: 'error', title: 'Ошибка добавления тега', text: error.response.data.message})

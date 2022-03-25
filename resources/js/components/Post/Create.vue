@@ -81,7 +81,7 @@
                                  @click.prevent="$store.commit('setIsAdditionTag')"></i></span>
                     </p>
                 </div>
-                <div class="checkbox-container" appear>
+                <div class="checkbox-container">
                     <transition name="slide-fade">
                     <div v-if="isAdditionTag" class="create-tag-block mb-3 d-flex align-items-baseline">
                         <input  v-model="category.title" class="w-75" type="text">
@@ -182,7 +182,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('loadMainImageDropzone', {ref: this.$refs.dropzone, dropzone: Dropzone})
-        this.$store.dispatch('getCategories')
+        this.$store.dispatch('getCategories', this.$notify)
         this.$store.dispatch('getTags')
     },
     methods: {
