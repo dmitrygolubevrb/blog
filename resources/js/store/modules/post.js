@@ -1,3 +1,6 @@
+import Post from "../../models/Post";
+import {serialize} from "object-to-formdata";
+
 const state = {
     mainImageDropzone: null,
     categoryId: '',
@@ -98,16 +101,22 @@ const actions = {
     },
     storePost({state, dispatch}, notification) {
         dispatch('validate', notification).then(isValid => {
-            let data = new FormData()
-            data.append('title', state.title)
-            data.append('content', state.content)
-            data.append('category_id', state.categoryId)
-            data.append('tags_ids[]', state.tagIds)
-            data.append('main_image', state.mainImageDropzone.getAcceptedFiles()[0])
             if (isValid) {
-                axios.post('/api/posts', data).then(res => {
-                    console.log(res);
+                const post = new Post({
+                    title: state.title,
+                    content: state.content,
+                    category_id: state.categoryId,
+                    tags_ids: state.tagIds,
+                    main_image: state.mainImageDropzone.getAcceptedFiles()[0]
                 })
+                post.save().then(res => {
+                    console.log(res);
+                }).catch(error => {
+                    console.log(error);
+                })
+                // axios.post('/api/posts', data).then(res => {
+                //     console.log(res)
+                // })
             }
         })
     }

@@ -1,3 +1,4 @@
+import Tag from "../../models/Tag";
 
 const state = {
     tag: {
@@ -25,7 +26,7 @@ const mutations = {
     setEditTagId(state, id) {
         state.editTagId = id
     },
-    setIsAdditionTag(state){
+    setIsAdditionTag(state) {
         state.tag = {
             title: null
         }
@@ -37,7 +38,8 @@ const mutations = {
 
 const actions = {
     storeTag({commit, dispatch}, data) {
-        axios.post('/api/admin/tags', {title: data.title}).then(() => {
+        const tag = new Tag({title: data.title})
+        tag.save().then(() => {
             dispatch('getTags')
                 .then(() => commit('setTag', {title: null}))
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Тег ${data.title} успешно создан`}))
@@ -47,16 +49,24 @@ const actions = {
     },
 
     destroyTag({dispatch}, data) {
-        axios.delete(`/api/admin/tags/${data.tag.id}`).then(res => {
+        const tag = new Tag({id: data.tag.id})
+        tag.delete().then(res => {
             dispatch('getTags')
-                .then(() => data.notification({type: 'success', title: 'Ok', text: `Тег ${data.tag.title} успешно удален`}))
+                .then(() => data.notification({
+                    type: 'success',
+                    title: 'Ok',
+                    text: `Тег ${data.tag.title} успешно удален`
+                }))
         }).catch(error => {
             data.notification({type: 'error', title: 'Ошибка удаления', text: error.response.data.message})
         })
     },
 
-    updateTag({dispatch, commit}, data){
-        axios.patch(`/api/admin/tags/${data.id}`, data.tag).then(tag => {
+    updateTag({dispatch, commit}, data) {
+        const tag = new Tag({id: data.id})
+        tag.id = data.tag.id
+        tag.title = data.tag.title
+        tag.patch().then(() => {
             dispatch('getTags')
                 .then(() => commit('setEditTagId', null))
                 .then(() => data.notification({type: 'success', title: 'Ok', text: `Тег успешно обновлен`}))
@@ -66,15 +76,15 @@ const actions = {
     },
 
     getTags({commit}, notify) {
-        axios.get('/api/admin/tags').then(tags => {
-            commit('setTags', tags.data.data)
+        new Tag().get().then(tags => {
+            commit('setTags', tags.data)
         }).catch(error => {
             notify({type: 'error', title: 'Ошибка загрузки', text: error.response.data.message})
         })
     },
 
     changeEditTagId({commit, state}, tag) {
-        if(state.isAdditionTag) commit('setIsAdditionTag')
+        if (state.isAdditionTag) commit('setIsAdditionTag')
         commit('setEditTagId', tag.id)
         commit('setTag', tag)
     },
@@ -82,7 +92,7 @@ const actions = {
         commit('setEditTagId', null)
         commit('setTag', {id: null, title: null})
     },
-    showAddTag({commit}){
+    showAddTag({commit}) {
         commit('setIsAdditionTag')
     }
 }

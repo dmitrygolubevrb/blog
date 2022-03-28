@@ -37,6 +37,7 @@
 import Edit from "./Edit";
 import Show from './Show'
 import Create from "./Create";
+import Category from "../../../models/Category";
 
 export default {
     name: "Index",
