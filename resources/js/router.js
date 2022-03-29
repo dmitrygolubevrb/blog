@@ -10,9 +10,15 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            component: () => import('./components/Main/Index'),   //Второй метод импорта
-            name: 'main.index'  // Имя роута по аналогии с laravel,
+            component: () => import('./components/Main/Index'),
+            name: 'main.index'
         },
+        {
+            path: '/blog',
+            component: () => import('./components/Blog/Index'),
+            name: 'blog.index'
+        },
+
         {
             path: '/admin',
             component: () => import('./components/Admin/Index'),

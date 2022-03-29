@@ -2,6 +2,7 @@ import Post from "../../models/Post";
 import {serialize} from "object-to-formdata";
 
 const state = {
+    posts: null,
     mainImageDropzone: null,
     categoryId: '',
     tagIds: [],
@@ -12,6 +13,7 @@ const state = {
 }
 
 const getters = {
+    posts: () => state.posts,
     mainImageDropzone: () => state.mainImageDropzone,
     categoryId: () => state.categoryId,
     tagIds: () => state.tagIds,
@@ -22,6 +24,9 @@ const getters = {
 }
 
 const mutations = {
+    setPosts(state, posts){
+      state.posts = posts
+    },
     setMainImageDropzone(state, dropzone) {
         state.mainImageDropzone = dropzone
     },
@@ -46,6 +51,35 @@ const mutations = {
 }
 
 const actions = {
+    getPosts({state}){
+        new Post().get().then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        })
+    },
+    storePost({state, dispatch}, notification) {
+        dispatch('validate', notification).then(isValid => {
+            if (isValid) {
+                const post = new Post({
+                    title: state.title,
+                    content: state.content,
+                    category_id: state.categoryId,
+                    tags_ids: state.tagIds,
+                    main_image: state.mainImageDropzone.getAcceptedFiles()[0]
+                })
+                post.save().then(res => {
+                    console.log(res);
+                }).catch(error => {
+                    console.log(error);
+                })
+                // axios.post('/api/posts', data).then(res => {
+                //     console.log(res)
+                // })
+            }
+        })
+    },
+
     loadMainImageDropzone({commit}, data) {
         let mainImageDropzone = new data.dropzone(data.ref, {
             url: 'api/posts',
@@ -99,27 +133,7 @@ const actions = {
         }
         return true
     },
-    storePost({state, dispatch}, notification) {
-        dispatch('validate', notification).then(isValid => {
-            if (isValid) {
-                const post = new Post({
-                    title: state.title,
-                    content: state.content,
-                    category_id: state.categoryId,
-                    tags_ids: state.tagIds,
-                    main_image: state.mainImageDropzone.getAcceptedFiles()[0]
-                })
-                post.save().then(res => {
-                    console.log(res);
-                }).catch(error => {
-                    console.log(error);
-                })
-                // axios.post('/api/posts', data).then(res => {
-                //     console.log(res)
-                // })
-            }
-        })
-    }
+
 }
 
 export default {
