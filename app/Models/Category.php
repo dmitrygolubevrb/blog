@@ -14,6 +14,7 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['title'];
     protected $guarded = false;
+    protected $withCount = ['posts'];
 
     public function posts()
     {

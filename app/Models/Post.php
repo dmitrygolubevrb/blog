@@ -13,6 +13,7 @@ class Post extends Model
 
     protected $table = 'posts';
     protected $fillable = ['title', 'content', 'category_id'];
+    protected $with = ['category'];
 
     public function tags()
     {
@@ -27,6 +28,11 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class);
     }
 
 

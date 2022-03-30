@@ -1,5 +1,4 @@
 import Post from "../../models/Post";
-import {serialize} from "object-to-formdata";
 
 const state = {
     posts: null,
@@ -51,9 +50,10 @@ const mutations = {
 }
 
 const actions = {
-    getPosts({state}){
-        new Post().get().then(res => {
-            console.log(res);
+    getPosts({state, commit}){
+        new Post().get().then(posts => {
+            console.log(posts);
+            // commit('setPosts', posts.data)
         }).catch(error => {
             console.log(error);
         })

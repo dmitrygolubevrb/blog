@@ -1,16 +1,19 @@
 <template>
     <div class="row">
-        <div class="col-9">
-            <div class="latest-posts">
-
-            </div>
-            <div class="card" style="width: 18rem;">
-                <img src="" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Название карточки</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="col">
+            <div class="row">
+                <div v-for="post in posts" :key="post.id" class="col-3">
+                    <div class="latest-posts">
+                        <div class="card" style="">
+                            <img :src="post.image.preview_url" class="card-img-top img-fluid" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                                    card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
