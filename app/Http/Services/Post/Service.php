@@ -58,6 +58,24 @@ class Service
         }
     }
 
+    public function index(){
+//        $posts = DB::table('posts')->limit(10);
+//        $categories = DB::table('categories')->join('posts', 'categories.id', '=', 'posts.category_id')->->get();
+        $posts = DB::table('posts');
+        $categories = DB::table('categories')->joinSub($posts, 'posts', function($join){
+            $join->on('categories.id', '=', 'posts.category_id');
+        })->get();
+        dd($categories);
+//        $posts = [];
+//        $categories = Category::all();
+//        foreach ($categories as $category) {
+//            $postsByCategory = $category->posts->reverse()->take(10);
+//            if($postsByCategory->isNotEmpty()) array_push($posts, [$category->title => PostResource::collection($postsByCategory)]);
+//        }
+//        return $posts;
+
+    }
+
     public function update($data, $post)
     {
     }
