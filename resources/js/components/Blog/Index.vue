@@ -1,20 +1,25 @@
 <template>
-    <div class="row">
+    <div class="row mt-5 mb-5">
         <div class="col">
-            <div class="row">
-                <div v-for="post in posts" :key="post.id" class="col-3">
-                    <div class="latest-posts">
-                        <div class="card" style="">
-                            <img :src="post.image.preview_url" class="card-img-top img-fluid" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                                    card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div v-for="(postsByCategory, category) in posts" class="row mb-3">
+
+                <div class="row category-title">
+                    <div class="fs-2 border-bottom mb-3 col">{{ category }}</div>
+                </div>
+
+                <div class="row g-0">
+                    <template v-for="(post, index) in postsByCategory">
+                        <div v-show="index < 5" v-bind:class="{'flex-fill': postsByCategory.length > 5}" class="col-2">
+                            <div class="card text-white border-0 card-div">
+                                <img :src="post.preview_url" class="img-fluid post-header-img" alt="...">
+                                <div class="card-img-overlay text-center mt-5">
+                                    <h5 class="card-text">{{ post.title }}</h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
+
             </div>
         </div>
     </div>
@@ -28,10 +33,10 @@ export default {
     },
     computed: {
         posts: {
-            get(){
+            get() {
                 return this.$store.getters.posts
             },
-            set(posts){
+            set(posts) {
                 this.$store.commit('setPosts', posts)
             }
         }
@@ -40,5 +45,26 @@ export default {
 </script>
 
 <style scoped>
+/*@font-face {*/
+/*    font-family: Calypso;*/
+/*    src: url('/dist/fonts/Veles-Regular.0.9.2.otf') format("truetype");*/
+/*    font-style: normal;*/
+/*    font-weight: normal;*/
+/*}*/
+.category-title{
+    font-family: Calypso;
+}
+.card-div{
+    background: #000;
+    opacity: 1;
+}
+.post-header-img{
+    max-height: 150px;
+}
+.card-div:hover .post-header-img{
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
 
 </style>

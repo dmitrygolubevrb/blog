@@ -25,10 +25,14 @@ export default {
 }
 
 @font-face {
-    font-family: 'Calypso';
-    src: url("/public/dist/fonts/Calypso.ttf") format('ttf');
+    font-family: Calypso;
+    src: url("/dist/fonts/Calypso.ttf") format('truetype');
     font-style: normal;
     font-weight: normal;
+}
+
+body, html{
+    font-family: Calypso;
 }
 
 i {

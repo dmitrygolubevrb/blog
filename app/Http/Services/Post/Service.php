@@ -59,21 +59,21 @@ class Service
     }
 
     public function index(){
-//        $posts = DB::table('posts')->limit(10);
-//        $categories = DB::table('categories')->join('posts', 'categories.id', '=', 'posts.category_id')->->get();
-        $posts = DB::table('posts');
-        $categories = DB::table('categories')->joinSub($posts, 'posts', function($join){
-            $join->on('categories.id', '=', 'posts.category_id');
-        })->get();
-        dd($categories);
-//        $posts = [];
-//        $categories = Category::all();
-//        foreach ($categories as $category) {
-//            $postsByCategory = $category->posts->reverse()->take(10);
-//            if($postsByCategory->isNotEmpty()) array_push($posts, [$category->title => PostResource::collection($postsByCategory)]);
-//        }
-//        return $posts;
+        $posts = DB::table('posts')
+            ->select(DB::raw('t2.*'))
+            ->from(DB::raw('(select category_id from posts group by category_id) as t1,
+            lateral (select posts.*, images.url, images.preview_url, categories.title as category_title
+            from posts, images, categories
+            where t1.category_id=posts.category_id AND posts.id=images.post_id AND posts.category_id=categories.id
+            order by posts.created_at desc limit 10) as t2'))
+            ->get();
 
+        $postsByCategories = [];
+        foreach ($posts as $post)
+        {
+            $postsByCategories[$post->category_title][] = $post;
+        }
+        return $postsByCategories;
     }
 
     public function update($data, $post)

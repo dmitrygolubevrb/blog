@@ -52,8 +52,8 @@ const mutations = {
 const actions = {
     getPosts({state, commit}){
         new Post().get().then(posts => {
-            console.log(posts);
-            // commit('setPosts', posts.data)
+            commit('setPosts', posts[0])
+            console.log(state.posts);
         }).catch(error => {
             console.log(error);
         })
