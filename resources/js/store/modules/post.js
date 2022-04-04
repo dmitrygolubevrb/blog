@@ -2,9 +2,11 @@ import Post from "../../models/Post";
 
 const state = {
     posts: null,
+    post: null,
     mainImageDropzone: null,
     categoryId: '',
     tagIds: [],
+    contentPreview: null,
     content: null,
     isShowPreview: false,
     title: null,
@@ -13,9 +15,11 @@ const state = {
 
 const getters = {
     posts: () => state.posts,
+    post: () => state.post,
     mainImageDropzone: () => state.mainImageDropzone,
     categoryId: () => state.categoryId,
     tagIds: () => state.tagIds,
+    contentPreview: () => state.contentPreview,
     content: () => state.content,
     title: () => state.title,
     isShowPreview: () => state.isShowPreview,
@@ -26,6 +30,9 @@ const mutations = {
     setPosts(state, posts){
       state.posts = posts
     },
+    setPost(state, post){
+        state.post = post
+    },
     setMainImageDropzone(state, dropzone) {
         state.mainImageDropzone = dropzone
     },
@@ -34,6 +41,9 @@ const mutations = {
     },
     setTagIds(state, id) {
         state.tagIds = id
+    },
+    setContentPreview(state, preview){
+      state.contentPreview = preview
     },
     setContent(state, content) {
         state.content = content
@@ -58,6 +68,10 @@ const actions = {
             console.log(error);
         })
     },
+    getPost({state, commit}, id){
+      const post = new Post().find(id)
+        console.log(post);
+    },
     storePost({state, dispatch}, notification) {
         dispatch('validate', notification).then(isValid => {
             if (isValid) {
@@ -73,9 +87,6 @@ const actions = {
                 }).catch(error => {
                     console.log(error);
                 })
-                // axios.post('/api/posts', data).then(res => {
-                //     console.log(res)
-                // })
             }
         })
     },
@@ -117,6 +128,10 @@ const actions = {
                 error: {type: 'error', title: 'Ошибка валидации', text: 'Поле контента пусто'}
             },
             {
+                field: state.contentPreview,
+                error: {type: 'error', title: 'Ошибка валидации', text: 'Поле превью контента пусто'}
+            },
+            {
                 field: state.mainImage,
                 error: {type: 'error', title: 'Ошибка валидации', text: 'Необходимо добавить главное изображение'}
             },
@@ -133,6 +148,9 @@ const actions = {
         }
         return true
     },
+    contentPreviewValidate({state}, notification){
+        return false
+    }
 
 }
 

@@ -34,7 +34,7 @@ class Service
             $previewImageName = 'preview_' . $imageName;
 
             InterventionImage::make($mainImage)
-                ->fit(150, 150)
+                ->fit(1200, 630)
                 ->save(storage_path('app/public/images/' . $previewImageName), 90);
             $mainImagePath = Storage::disk('public')
                 ->putFileAs('/images', $mainImage, $imageName);
@@ -71,6 +71,7 @@ class Service
         $postsByCategories = [];
         foreach ($posts as $post)
         {
+            $post->created_at = Carbon::parse($post->created_at)->diffForHumans();
             $postsByCategories[$post->category_title][] = $post;
         }
         return $postsByCategories;

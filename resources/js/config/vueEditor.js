@@ -8,8 +8,9 @@ const fonts = Quill.import('attributors/class/font')
 fonts.whitelist = ["sans-serif", "serif", "monospace"]
 Quill.register(fonts, true)
 
+let editorSettings = {}
 
-let editorSettings = {
+editorSettings.contentEditor = {
     modules: {
         imageDrop: true,
             imageResize: {
@@ -37,5 +38,19 @@ let editorSettings = {
         ]
     }
 }
+editorSettings.previewContentEditorToolbar = [
+    [{header: [false, 1, 2, 3, 4, 5, 6]}],
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    [
+        {align: ""},
+        {align: "center"},
+        {align: "right"},
+        {align: "justify"}
+    ],
+    ["blockquote"],
+    [{indent: "-1"}, {indent: "+1"}],
+    [{color: []}, {background: []}],
+    [{'font': fonts.whitelist}],
+]
 
 export default editorSettings

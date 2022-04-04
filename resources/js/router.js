@@ -39,6 +39,11 @@ export default new VueRouter({
             component: () => import('./components/Post/Create'),
             name: 'post.create'
         },
+        {
+            path: '/posts/:id',
+            component: () => import('./components/Post/Show'),
+            name: 'post.show'
+        },
 
 
 

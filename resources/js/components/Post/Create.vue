@@ -21,8 +21,22 @@
 
             <div class="row mt-4">
                 <div class="col-11">
-                    <vue-editor :editorOptions="editorSettings" useCustomImageHandler
+                    <label for="preview-content-editor" class="form-label">Контент превью (не более 300 символов)</label>
+                    <vue-editor
+                        id="preview-content-editor"
+                        v-model="contentPreview"
+                        @text-change="$store.dispatch('contentPreviewValidate', $notify)"
+                        :editor-toolbar="editorSettings.previewContentEditorToolbar">
+                    </vue-editor>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-11">
+                    <label for="content-editor" class="form-label">Контент поста</label>
+                    <vue-editor :editorOptions="editorSettings.contentEditor" useCustomImageHandler
                                 @image-added="handleImageAdded"
+                                id="content-editor"
                                 v-model="content"></vue-editor>
                     <button
                         @click="$store.dispatch('storePost', $notify)"
@@ -121,7 +135,7 @@ export default {
     components: {},
     data() {
         return {
-            editorSettings
+            editorSettings,
         }
     },
     computed: {
@@ -155,6 +169,14 @@ export default {
                 return this.$store.getters.category
             }
         },
+        contentPreview: {
+          set(contentPreview){
+              this.$store.commit('setContentPreview', contentPreview)
+          },
+          get(){
+              return this.$store.getters.contentPreview
+          }
+        },
         content: {
             set(content) {
                 this.$store.commit('setContent', content)
@@ -186,6 +208,10 @@ export default {
         this.$store.dispatch('getTags')
     },
     methods: {
+        textChange(delta, oldDelta, source){
+            console.log(delta);
+            console.log('change text')
+        },
         handleImageAdded(file, Editor, cursorLocation, resetUploader) {
             const formData = new FormData()
             formData.append('image', file)
