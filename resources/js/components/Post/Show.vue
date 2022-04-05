@@ -1,14 +1,19 @@
 <template>
-    <div> KEK </div>
+    <div class="row">
+        <div class="col">
+            <RelatedNews></RelatedNews>
+        </div>
+    </div>
 </template>
 
 <script>
 import Dropzone from "dropzone";
+import RelatedNews from "../Includes/RelatedNews";
 
 
 export default {
     name: "Create",
-    components: {},
+    components: {RelatedNews},
     data() {
         return {
 

@@ -6,7 +6,7 @@ const state = {
     mainImageDropzone: null,
     categoryId: '',
     tagIds: [],
-    contentPreview: null,
+    contentPreview: '',
     content: null,
     isShowPreview: false,
     title: null,
@@ -70,7 +70,6 @@ const actions = {
     },
     getPost({state, commit}, id){
       const post = new Post().find(id)
-        console.log(post);
     },
     storePost({state, dispatch}, notification) {
         dispatch('validate', notification).then(isValid => {
@@ -78,6 +77,7 @@ const actions = {
                 const post = new Post({
                     title: state.title,
                     content: state.content,
+                    content_preview: state.contentPreview,
                     category_id: state.categoryId,
                     tags_ids: state.tagIds,
                     main_image: state.mainImageDropzone.getAcceptedFiles()[0]
@@ -149,6 +149,7 @@ const actions = {
         return true
     },
     contentPreviewValidate({state}, notification){
+        console.log(state.contentPreview.length);
         return false
     }
 

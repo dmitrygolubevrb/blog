@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
             <div class="related_news">
-                <div class="entity_inner__title header_purple">
+                <div class="header_purple">
                     <h2><a href="#">Related News</a></h2>
                 </div>
                 <!-- entity_title -->

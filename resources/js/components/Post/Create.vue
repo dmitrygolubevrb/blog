@@ -21,11 +21,10 @@
 
             <div class="row mt-4">
                 <div class="col-11">
-                    <label for="preview-content-editor" class="form-label">Контент превью (не более 300 символов)</label>
+                    <label for="preview-content-editor" class="form-label">Контент превью</label>
                     <vue-editor
                         id="preview-content-editor"
                         v-model="contentPreview"
-                        @text-change="$store.dispatch('contentPreviewValidate', $notify)"
                         :editor-toolbar="editorSettings.previewContentEditorToolbar">
                     </vue-editor>
                 </div>
@@ -62,6 +61,7 @@
                         <div v-show="mainImage" class="main-image">
                             <img :src="mainImage" alt="main-image" class="container-fluid">
                         </div>
+                        <div v-html="contentPreview" class="ql-editor"></div>
                         <div v-html="content" class="ql-editor mt-3 mb-5"></div>
                     </div>
                     </transition>
@@ -128,7 +128,6 @@
 import editorSettings from '../../config/vueEditor'
 import {mapGetters} from 'vuex'
 import Dropzone from "dropzone";
-
 
 export default {
     name: "Create",
@@ -208,10 +207,6 @@ export default {
         this.$store.dispatch('getTags')
     },
     methods: {
-        textChange(delta, oldDelta, source){
-            console.log(delta);
-            console.log('change text')
-        },
         handleImageAdded(file, Editor, cursorLocation, resetUploader) {
             const formData = new FormData()
             formData.append('image', file)
@@ -224,7 +219,7 @@ export default {
                 .catch(error => {
                     this.$notify({type: 'error', title: 'Ошибка загрузки', text: error.data.message})
                 })
-        }
+        },
     },
 }
 </script>

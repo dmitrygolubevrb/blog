@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|string',
             'content' => 'required|string',
+            'content_preview' => 'required|string',
             'main_image' => 'required|image',
             'category_id' => 'required|exists:categories,id',
             'tags_ids' => 'nullable|array',
@@ -40,6 +41,8 @@ class StoreRequest extends FormRequest
             'title.string' => 'Заголовок поста должен быть текстом',
             'content.required' => 'Контент поста не должен быть пустым',
             'content.string' => 'Контент поста должен быть текстом',
+            'content_preview.required' => 'Контент поста не должен быть пустым',
+            'content_preview.string' => 'Контент поста должен быть текстом',
             'main_image.required' => 'Необходимо загрузить главное изображение',
             'main_image.image' => 'Изображение должно быть в формате jpg, jpeg, png, bmp, gif, svg или webp',
             'category_id.required' => 'Необходимо выбрать категорию',
